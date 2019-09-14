@@ -1,26 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ReactDOM from 'react-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    playerData: "",
+    players: []
+  };
+
+  componentDidMount() {
+    fetch("http://localhost:5000/api/players")
+    .then(res => res.json())
+    .then(players => this.setState({ players: players.message }))
+    .catch(err => console.log("nooo: ", err));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.players !== this.state.players) {
+      console.log("index.js: App: CDU");
+      fetch("http://localhost:5000/api/player")
+      .then(res => res.json())
+      .then(players => this.setState({ playersText: "", players: players.message }))
+      .catch(err => console.log("nooo: ", err));
+    }
+  }
 }
+
+handleChange = event => {
+  this.setState({ playersText: event.target.value});
+};
+
+handleClick = event => {
+  event.preventDefault();
+  fetch("http://localhost:5000/api/${this.state.playerText}/player")
+      .then(res => res.json())
+      .then(players => this.setState({ players: players.message }))
+      .catch(err => console.log("nooo: ", err));
+};
+
+render() {
+  
+}
+
+
+
+
 
 export default App;
