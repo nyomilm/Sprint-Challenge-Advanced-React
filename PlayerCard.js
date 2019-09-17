@@ -1,9 +1,10 @@
 import React from 'react';
+// import './App.css';
 
-const PlayerCard = ({player: {country, name, searches, id}}) => {
+function PlayerCard(props) {
     return (
         <div className="player card">
-            <h3>{name}</h3>
+            <h3>{props.player.name}</h3>
             <p>Rank: {id}</p>
             <p>Country: {country}</p>
             <p>Searches: {searches}</p>
